@@ -1,0 +1,46 @@
+../resources\a.txt
+../resources\a\a.txt
+../resources\a\a\a.txt
+../resources\a\a\b.txt
+../resources
+../resources\a
+../resources\a\a
+../resources\a\b
+../resources\b
+../resources\b\a
+../resources\c
+path n_folders n_files
+../resources 6 4
+../resources\a 2 3
+../resources\a\a 0 2
+../resources\a\b 0 0
+../resources\b 1 0
+../resources\b\a 0 0
+../resources\c 0 0
+resources
+├── a.txt
+├── a
+│   ├── a.txt
+│   ├── a
+│   │   ├── a.txt
+│   │   └── b.txt
+│   └── b
+├── b
+│   └── a
+└── c
+path size/B
+../resources 12B
+../resources\a.txt 3B
+../resources\a 9B
+../resources\a\a.txt 3B
+../resources\a\a 6B
+../resources\a\a\a.txt 3B
+../resources\a\a\b.txt 3B
+../resources\a\b 0B
+../resources\b 0B
+../resources\b\a 0B
+../resources\c 0B
+tests/0_a.txt
+tests/1_a.txt
+tests/2_a.txt
+tests/3_b.txt
