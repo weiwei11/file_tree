@@ -1,5 +1,5 @@
 # Author: weiwei
-
+import collections
 import os
 from typing import List, Tuple
 
@@ -167,3 +167,30 @@ def change_paths(paths: List[str], old_root: str, new_root: str, mode: str = 'tr
         raise ValueError(f'mode is not support!')
 
     return new_paths
+
+
+def match_files(src_paths: List[str], dst_paths: List[str], mode: str = 'filename'):
+    """
+    Match files from source paths to destination paths.
+
+    :param src_paths:
+    :param dst_paths:
+    :param mode: choice in ['filename', 'path']
+    :return: [[src_path, [dst_path]]]
+    """
+    if mode == 'filename':
+        src_names = [os.path.split(p)[1] for p in src_paths]
+        dst_dict = collections.defaultdict(list)
+        for path in dst_paths:
+            p, name = os.path.split(path)
+            dst_dict[name].append(path)
+
+        match_list = [[p, dst_dict[n]] if n in dst_dict else [p, []] for p, n in zip(src_paths, src_names)]
+    elif mode == 'path':
+        match_list = []
+        for sp in src_paths:
+            items = [dp for dp in dst_paths if dp[-len(sp):] == sp]
+            match_list.append([sp, items])
+    else:
+        raise ValueError(f'mode {mode} is not support!')
+    return match_list

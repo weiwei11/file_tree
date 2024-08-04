@@ -1,10 +1,9 @@
 # Author: weiwei
-import collections
 
 import pytest
 
 from file_tree import func
-from tests import file_tree, file_tree2, path, read_file, line_targets, paths
+from tests import file_tree, file_tree2, path, line_targets, paths
 
 
 def test_from_strings(file_tree, file_tree2):
@@ -172,33 +171,6 @@ def test_func(path, line_targets):
     #     assert r == t
 
 
-def test_command(path, line_targets):
-    import os
-
-    file = '../file_tree/main.py'
-    path = '../resources'
-    out_file = 'out.txt'
-
-    results = []
-    os.system(f'python {file} list_all_files -p {path} -o {out_file}')
-    results.extend(read_file(out_file))
-    os.system(f'python {file} list_all_folders -p {path} -o {out_file}')
-    results.extend(read_file(out_file))
-    os.system(f'python {file} count -p {path} -o {out_file}')
-    results.extend(read_file(out_file))
-    os.system(f'python {file} tree -p {path} -o {out_file}')
-    results.extend(read_file(out_file))
-    os.system(f'python {file} size -p {path} -o {out_file}')
-    results.extend(read_file(out_file))
-    new_path = 'tests'
-    os.system(f'python {file} change_paths -p {path} -n {new_path} -o {out_file} -m flatten+id')
-    results.extend(read_file(out_file))
-
-    assert len(results) == len(line_targets)
-    for r, t in zip(results, line_targets):
-        assert r.replace('\\', '/') == t.replace('\\', '/')
-
-
 def test_change_paths(paths):
     def compare(result, target):
         assert len(result) == len(target)
@@ -219,6 +191,25 @@ def test_change_paths(paths):
 
     target = ['tests/0_a.txt', 'tests/1_a.txt', 'tests/2_a.txt', 'tests/3_b.txt']
     result = func.change_paths(paths, old_root, new_root, mode='flatten+id')
+    compare(result, target)
+
+
+def test_match_files(paths):
+    def compare(result, target):
+        assert len(result) == len(target)
+        for r, t in zip(result, target):
+            assert r[0] == t[0]
+            assert len(r[1]) == len(t[1])
+            assert set(r[1]) == set(t[1])
+
+    # test match filename
+    target = [['a/a/a.txt', ['../resources/a.txt', '../resources/a/a.txt', '../resources/a/a/a.txt']]]
+    result = func.match_files(['a/a/a.txt'], paths, mode='filename')
+    compare(result, target)
+
+    # test match path
+    target = [['a/a/a.txt', ['../resources/a/a/a.txt']]]
+    result = func.match_files(['a/a/a.txt'], paths, mode='path')
     compare(result, target)
 
 

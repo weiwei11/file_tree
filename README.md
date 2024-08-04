@@ -7,3 +7,4 @@ A tool for file.
 4. [x] tree
 5. [x] size
 6. [x] change paths
+7. [x] match files

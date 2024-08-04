@@ -10,6 +10,11 @@ def change_paths_wrapper(path: str, new_path: str, mode: str = 'tree'):
     return change_paths(paths, path, new_path, mode)
 
 
+def match_files_wrapper(path: str, file: str, mode: str = 'filename'):
+    paths = list_all_files(path)
+    return match_files([file], paths, mode)[0][1]
+
+
 cmd_dict = {
     'list_all_files': list_all_files,
     'list_all_folders': list_all_folders,
@@ -17,6 +22,7 @@ cmd_dict = {
     'tree': tree,
     'size': size,
     'change_paths': change_paths_wrapper,
+    'match_files': match_files_wrapper,
 }
 
 
@@ -48,6 +54,12 @@ def main():
     sub_cmd = sub_parser.add_parser('change_paths')
     sub_cmd.add_argument('-p', '--path', type=str, required=True)
     sub_cmd.add_argument('-n', '--new_path', type=str, required=True)
+    sub_cmd.add_argument('-o', '--out_file', type=str, required=False)
+    sub_cmd.add_argument('-m', '--mode', type=str, required=False)
+    # match files
+    sub_cmd = sub_parser.add_parser('match_files')
+    sub_cmd.add_argument('-p', '--path', type=str, required=True)
+    sub_cmd.add_argument('-f', '--file', type=str, required=True)
     sub_cmd.add_argument('-o', '--out_file', type=str, required=False)
     sub_cmd.add_argument('-m', '--mode', type=str, required=False)
 

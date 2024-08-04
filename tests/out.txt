@@ -1,4 +1,3 @@
-tests\0_a.txt
-tests\1_a.txt
-tests\2_a.txt
-tests\3_b.txt
+../resources\a.txt
+../resources\a\a.txt
+../resources\a\a\a.txt
