@@ -194,3 +194,13 @@ def match_files(src_paths: List[str], dst_paths: List[str], mode: str = 'filenam
     else:
         raise ValueError(f'mode {mode} is not support!')
     return match_list
+
+
+def group_by_ext(paths: List[str]):
+    groups = collections.defaultdict(list)
+    for p in paths:
+        base_name, ext_name = os.path.splitext(p)
+        ext_name = ext_name.lstrip('.')
+        groups[ext_name].append(p)
+
+    return groups

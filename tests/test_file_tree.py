@@ -213,5 +213,25 @@ def test_match_files(paths):
     compare(result, target)
 
 
+def test_group_by_ext(paths):
+    def compare(result, target):
+        assert len(result) == len(target)
+        assert set(result.keys()) == set(target.keys())
+        for k in result.keys():
+            rv = result[k]
+            tv = target[k]
+            srv = set(rv)
+            stv = set(tv)
+            assert len(rv) == len(srv)
+            assert len(tv) == len(stv)
+            assert srv == stv
+
+    target = {
+        'txt': ['../resources/a.txt', '../resources/a/a.txt', '../resources/a/a/a.txt', '../resources/a/a/b.txt']
+    }
+    result = func.group_by_ext(paths)
+    compare(result, target)
+
+
 if __name__ == '__main__':
     pytest.main()

@@ -8,3 +8,4 @@ A tool for file.
 5. [x] size
 6. [x] change paths
 7. [x] match files
+8. [x] group by ext

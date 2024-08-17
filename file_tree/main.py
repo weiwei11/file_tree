@@ -15,6 +15,11 @@ def match_files_wrapper(path: str, file: str, mode: str = 'filename'):
     return match_files([file], paths, mode)[0][1]
 
 
+def group_by_ext_wrapper(path: str):
+    paths = list_all_files(path)
+    return group_by_ext(paths)
+
+
 cmd_dict = {
     'list_all_files': list_all_files,
     'list_all_folders': list_all_folders,
@@ -23,6 +28,7 @@ cmd_dict = {
     'size': size,
     'change_paths': change_paths_wrapper,
     'match_files': match_files_wrapper,
+    'group_by_ext': group_by_ext_wrapper,
 }
 
 
@@ -62,6 +68,10 @@ def main():
     sub_cmd.add_argument('-f', '--file', type=str, required=True)
     sub_cmd.add_argument('-o', '--out_file', type=str, required=False)
     sub_cmd.add_argument('-m', '--mode', type=str, required=False)
+    # group by ext
+    sub_cmd = sub_parser.add_parser('group_by_ext')
+    sub_cmd.add_argument('-p', '--path', type=str, required=True)
+    sub_cmd.add_argument('-o', '--out_file', type=str, required=False)
 
     args = parser.parse_args()
     if args.command in cmd_dict:
@@ -87,6 +97,12 @@ def main():
         elif command in ['size']:
             lines = [f'{path} {s}B' for path, s in result]
             lines = ['path size/B'] + lines
+            print_to_stream(lines, out_file)
+        elif command in ['group_by_ext']:
+            lines = []
+            for k, v in result.items():
+                lines.append(k)
+                lines.extend(v)
             print_to_stream(lines, out_file)
         else:
             print_to_stream(result, out_file)

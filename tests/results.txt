@@ -47,3 +47,8 @@ tests/3_b.txt
 ../resources/a.txt
 ../resources/a/a.txt
 ../resources/a/a/a.txt
+txt
+../resources\a.txt
+../resources\a\a.txt
+../resources\a\a\a.txt
+../resources\a\a\b.txt
